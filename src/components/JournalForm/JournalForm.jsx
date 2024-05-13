@@ -95,7 +95,7 @@ function JournalForm({ onSubmit }) {
                     className={`${styles['title']} ${
                         isValid.date ? '' : styles['invalid']
                     }`}
-                    placeholder="Введите заголовок"
+                    placeholder="Enter title"
                 />
             </div>
             <div className={styles['form-row']}>
@@ -105,7 +105,7 @@ function JournalForm({ onSubmit }) {
                         alt="calendar_logo"
                         className={styles.date_logo}
                     />
-                    <span>Дата</span>
+                    <span>Date</span>
                 </label>
                 <input
                     ref={dateRef}
@@ -126,7 +126,7 @@ function JournalForm({ onSubmit }) {
                         alt="tag_logo"
                         className={styles.tag_logo}
                     />
-                    <span>Метки</span>
+                    <span>Tag</span>
                 </label>
                 <input
                     onChange={onChange}
@@ -137,7 +137,7 @@ function JournalForm({ onSubmit }) {
                     className={`${styles['tag']} ${
                         isValid.date ? '' : styles['invalid']
                     }`}
-                    placeholder="Введите метку"
+                    placeholder="Enter tag"
                 />
             </div>
             <textarea
@@ -151,10 +151,10 @@ function JournalForm({ onSubmit }) {
                 className={`${styles['post_txt']} ${
                     isValid.post ? '' : styles['invalid']
                 }`}
-                placeholder="Введите текст"
+                placeholder="Enter text"
             ></textarea>
             <Button
-                text="Сохранить"
+                text="Save"
                 // onClick={() => {
                 //     console.log('pressed');
                 // }}

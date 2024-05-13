@@ -11,8 +11,8 @@ function SelectUser() {
 
     return (
         <select name="user" id="user" onChange={changeUser} value={userId}>
-            <option value="1">Антон</option>
-            <option value="2">Вася</option>
+            <option value="1">James</option>
+            <option value="2">Liam</option>
         </select>
     );
 }

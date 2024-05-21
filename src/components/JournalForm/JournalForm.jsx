@@ -6,7 +6,7 @@ import { UserContext } from '../../context/user.context';
 
 //eslint-disable-next-line react/prop-types
 // onSubmit функция, которая получает данные из формы и добавляет их в новый элемент addItem
-function JournalForm({ onSubmit }) {
+function JournalForm({ onSubmit, data, onDelete }) {
     const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
     const { isValid, isFormReadyToSubmit, values } = formState;
     // useRef, используем для постановки фокуса на невалидное поле
@@ -29,6 +29,14 @@ function JournalForm({ onSubmit }) {
                 break;
         }
     };
+
+    // вывести данные по клику в форму
+    useEffect(() => {
+        dispatchForm({
+            type: 'SET_VALUE',
+            payload: { ...data },
+        });
+    }, [data]);
 
     // очистка формы, после показа красным цветом строчек, которые не заполнены
     useEffect(() => {
@@ -53,8 +61,12 @@ function JournalForm({ onSubmit }) {
         if (isFormReadyToSubmit) {
             onSubmit(values);
             dispatchForm({ type: 'CLEAR' });
+            dispatchForm({
+                type: 'SET_VALUE',
+                payload: { userId },
+            });
         }
-    }, [isFormReadyToSubmit]);
+    }, [isFormReadyToSubmit, values, onSubmit, userId]);
 
     // добавляем фильтрацию по контексту
     useEffect(() => {
@@ -83,9 +95,18 @@ function JournalForm({ onSubmit }) {
         dispatchForm({ type: 'SUBMIT' });
     };
 
+    const deleteJournalItem = () => {
+        onDelete(data.id);
+        dispatchForm({ type: 'CLEAR' });
+        dispatchForm({
+            type: 'SET_VALUE',
+            payload: { userId },
+        });
+    };
+
     return (
         <form className={styles['journal-form']} onSubmit={addJournalItem}>
-            <div className={styles['title-box']}>
+            <div className={styles['form-row']}>
                 <input
                     ref={titleRef}
                     value={values.title}
@@ -97,6 +118,15 @@ function JournalForm({ onSubmit }) {
                     }`}
                     placeholder="Enter title"
                 />
+                {data.id && (
+                    <button
+                        type="button"
+                        className={styles['delete']}
+                        onClick={deleteJournalItem}
+                    >
+                        <img src="deletebtn.svg" alt="delete button" />
+                    </button>
+                )}
             </div>
             <div className={styles['form-row']}>
                 <label htmlFor="date" className={styles['form-labels']}>
@@ -109,7 +139,11 @@ function JournalForm({ onSubmit }) {
                 </label>
                 <input
                     ref={dateRef}
-                    value={values.date}
+                    value={
+                        values.date
+                            ? new Date(values.date).toISOString().slice(0, 10)
+                            : ''
+                    }
                     onChange={onChange}
                     type="date"
                     name="date"

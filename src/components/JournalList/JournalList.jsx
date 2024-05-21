@@ -5,7 +5,7 @@ import { useContext, useMemo } from 'react';
 import { UserContext } from '../../context/user.context';
 
 // eslint-disable-next-line react/prop-types
-function JournalList({ items }) {
+function JournalList({ items, setItem }) {
     const { userId } = useContext(UserContext);
 
     // сортировка данных по возрастанию даты, свежие наверх
@@ -31,12 +31,11 @@ function JournalList({ items }) {
     return (
         <>
             {filteredItems.map((el) => (
-                <CardButton key={el.id}>
+                <CardButton key={el.id} onClick={() => setItem(el)}>
                     <JournalItem
                         title={el.title}
-                        text={el.post}
+                        post={el.post}
                         date={el.date}
-                        id={userId}
                     />
                 </CardButton>
             ))}

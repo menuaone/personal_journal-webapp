@@ -4,7 +4,7 @@ import './JournalItem.css';
 // eslint-disable-next-line react/prop-types
 function JournalItem({ title, post, date }) {
     // форматирование даты с помощью intl
-    const formatedDate = new Intl.DateTimeFormat('ge-Ge').format(date);
+    const formatedDate = new Intl.DateTimeFormat('ru-RU').format(date);
 
     return (
         <>

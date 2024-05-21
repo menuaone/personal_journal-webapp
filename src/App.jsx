@@ -8,6 +8,7 @@ import Body from './layout/Body/Body';
 import LeftPanel from './layout/LeftPanel/LeftPanel';
 import { useLocalStorage } from './hooks/useLocalStorage.hook';
 import { UserContextProvider } from './context/user.context';
+import { useState } from 'react';
 
 // перенесено в localstorage
 // const INITIAL_DATA = [
@@ -39,21 +40,41 @@ function App() {
     // прописали динамические переменные, чтобы иметь возможность быстро их менять
     // сохранить текущее состояние - оно сохраняется, как INITIAL_DATA
     const [items, setItems] = useLocalStorage(['data']);
+    const [selectedItem, setSelectedItem] = useState({});
 
     // установка нового состояния. На входе новый массив, затем берется новое состояние, где есть функция, берущая старое значние (oldItem) и добавляющее новое значние к уже существующему
     const addItem = (item) => {
-        setItems([
-            ...mapItems(items),
-            {
-                ...item,
-                date: new Date(item.date),
-                id:
-                    // adding keys to items
-                    items.length > 0
-                        ? Math.max(...items.map((i) => i.id)) + 1
-                        : 1,
-            },
-        ]);
+        if (!item.id) {
+            // создание item
+            setItems([
+                ...mapItems(items),
+                {
+                    ...item,
+                    date: new Date(item.date),
+                    id:
+                        // adding keys to items
+                        items.length > 0
+                            ? Math.max(...items.map((i) => i.id)) + 1
+                            : 1,
+                },
+            ]);
+            // обновление item
+        } else {
+            setItems([
+                ...mapItems(items).map((i) => {
+                    if (i.id === item.id) {
+                        return {
+                            ...item,
+                        };
+                    }
+                    return i;
+                }),
+            ]);
+        }
+    };
+
+    const deleteItem = (id) => {
+        setItems([...items.filter((i) => i.id !== id)]);
     };
 
     return (
@@ -62,10 +83,17 @@ function App() {
                 <LeftPanel>
                     <Header />
                     <JournalAddButton />
-                    <JournalList items={mapItems(items)} />
+                    <JournalList
+                        items={mapItems(items)}
+                        setItem={setSelectedItem}
+                    />
                 </LeftPanel>
                 <Body>
-                    <JournalForm onSubmit={addItem} />
+                    <JournalForm
+                        onSubmit={addItem}
+                        data={selectedItem}
+                        onDelete={deleteItem}
+                    />
                 </Body>
             </div>
         </UserContextProvider>

@@ -1,0 +1,14 @@
+.user_select {
+    border: none;
+    height: 40px;
+    background: #312eb5;
+
+    color: white;
+    cursor: pointer;
+    text-align: center;
+
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+}

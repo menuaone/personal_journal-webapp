@@ -73,3 +73,17 @@
 .invalid {
     border-bottom: 1px solid red;
 }
+
+.delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    height: 30px;
+    width: 30px;
+}
+
+.delete:hover {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+}

@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { UserContext } from '../../context/user.context';
+import styles from './SelectUser.module.css';
 
 // eslint-disable-next-line react/prop-types
 function SelectUser() {
@@ -10,7 +11,13 @@ function SelectUser() {
     };
 
     return (
-        <select name="user" id="user" onChange={changeUser} value={userId}>
+        <select
+            className={styles['user_select']}
+            name="user"
+            id="user"
+            onChange={changeUser}
+            value={userId}
+        >
             <option value="1">James</option>
             <option value="2">Liam</option>
         </select>

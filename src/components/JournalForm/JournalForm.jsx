@@ -32,6 +32,13 @@ function JournalForm({ onSubmit, data, onDelete }) {
 
     // вывести данные по клику в форму
     useEffect(() => {
+        if (!data) {
+            dispatchForm({ type: 'CLEAR' });
+            dispatchForm({
+                type: 'SET_VALUE',
+                payload: { userId },
+            });
+        }
         dispatchForm({
             type: 'SET_VALUE',
             payload: { ...data },
@@ -118,7 +125,7 @@ function JournalForm({ onSubmit, data, onDelete }) {
                     }`}
                     placeholder="Enter title"
                 />
-                {data.id && (
+                {data?.id && (
                     <button
                         type="button"
                         className={styles['delete']}

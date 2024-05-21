@@ -40,7 +40,7 @@ function App() {
     // прописали динамические переменные, чтобы иметь возможность быстро их менять
     // сохранить текущее состояние - оно сохраняется, как INITIAL_DATA
     const [items, setItems] = useLocalStorage(['data']);
-    const [selectedItem, setSelectedItem] = useState({});
+    const [selectedItem, setSelectedItem] = useState(null);
 
     // установка нового состояния. На входе новый массив, затем берется новое состояние, где есть функция, берущая старое значние (oldItem) и добавляющее новое значние к уже существующему
     const addItem = (item) => {
@@ -82,7 +82,7 @@ function App() {
             <div className="app">
                 <LeftPanel>
                     <Header />
-                    <JournalAddButton />
+                    <JournalAddButton clearForm={() => setSelectedItem(null)} />
                     <JournalList
                         items={mapItems(items)}
                         setItem={setSelectedItem}
